@@ -323,12 +323,12 @@ jQuery(document).ready(function($) {
 
         var mapOptions = {
             zoom: 14,
-            center: new google.maps.LatLng(-37.815921, 144.964085),
+            center: new google.maps.LatLng(4.078593, 9.767782),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
         var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
         var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(-37.815921, 144.964085),
+            position: new google.maps.LatLng(4.078593, 9.767782),
             map: map,
             title: 'A 300m de l\'hopital des soeurs, venant du lycee de logpom.',
             icon: 'images/map-marker.png'
