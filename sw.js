@@ -8,7 +8,8 @@ const STATIC_FILES =[
 	'index.html',
 	'css/styles.min.css',
 	'js/main.min.js',
-	'assets/images/header.png'
+	'assets/images/header.png',
+	'favicon.ico'
 ];
 
 
