@@ -1,1 +1,68 @@
-"use strict";var CACHE_VERSION=1,CURRENT_CACHES="currency-cache-"+CACHE_VERSION;const STATIC_FILES=["/","/index.html","/css/styles.min.css","https://code.jquery.com/jquery-3.2.1.slim.min.js","/js/main.min.js","/assets/images/header.png","/favicon.ico"];self.addEventListener("install",e=>{e.waitUntil(caches.open(CURRENT_CACHES).then(e=>e.addAll(STATIC_FILES)).then(()=>{console.log("WORKER: install completed")}))}),self.addEventListener("fetch",e=>{e.respondWith(caches.match(e.request).then(t=>t||fetch(e.request)).catch(e=>{console.log(e)}))}),self.addEventListener("activate",e=>{console.log("WORKER: activate event in progress."),e.waitUntil(caches.keys().then(e=>Promise.all(e.filter(e=>!e.startsWith(CURRENT_CACHES)).map(e=>caches.delete(e)))).then(()=>{console.log("WORKER: activate completed.")}))});
+
+'use strict';
+const CACHE_VERSION = 1;
+const CURRENT_CACHES = 'currency-cache-'+ CACHE_VERSION;
+
+const STATIC_FILES =[
+	'/',
+	'/index.html',
+	'/css/styles.min.css',
+	'/js/main.min.js',
+	'/assets/images/header.png',
+	'/favicon.ico'
+];
+
+
+self.addEventListener('install', event => {
+	//perform install steps
+	event.waitUntil(
+		caches.open(CURRENT_CACHES)
+		.then( cache => {
+			return cache.addAll(STATIC_FILES);
+		})
+		.then( () => {
+			console.log('WORKER: install completed');
+		})
+	)
+});
+
+
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then( response => {
+        // Cache hit - return response
+        if (response) {
+          	return response;
+        }
+        return fetch(event.request);
+      })
+      .catch( (error) => {
+      	console.log('No internet Connection. You must carry this operation atleast once when connected before it works offline');
+      })
+  );
+});
+
+
+self.addEventListener('activate', event => {
+	console.log('WORKER: activate event in progress.');
+	event.waitUntil(
+	    caches
+	      .keys()
+	      .then( (keys) => {
+	        return Promise.all(
+	          keys
+	            .filter( (key) => {
+	              return !key.startsWith(CURRENT_CACHES);
+	            })
+	            .map( (key) => {
+	              return caches.delete(key);
+	            })
+	        );
+	      })
+	      .then( () => {
+	        console.log('WORKER: activate completed.');
+	      })
+	 );
+});
